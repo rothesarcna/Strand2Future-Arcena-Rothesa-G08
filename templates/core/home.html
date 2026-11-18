@@ -1,0 +1,120 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strand2Future | Choose Your Course</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">Strand<span>2Future</span></a>
+
+        <nav>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="/accounts/login/">Log In</a>
+            <a href="/accounts/register/" class="nav-button">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <span class="tagline">YOUR FUTURE STARTS HERE</span>
+
+                <h1>Choose Your Course.<br>
+                    <span>Plan Your Future.</span>
+                </h1>
+
+                <p>
+                    Not sure what college course to take?
+                    Discover courses that match your interests,
+                    explore possible careers, and prepare for
+                    your college journey with Strand2Future.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="/accounts/register/" class="primary-button">
+                        Get Started
+                    </a>
+
+                    <a href="#features" class="secondary-button">
+                        Explore Features
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <div class="card-icon">🎓</div>
+                <h3>Your Future, Your Choice</h3>
+                <p>Discover possibilities and make informed decisions about your college journey.</p>
+
+                <div class="progress-item">
+                    <span>Discover your interests</span>
+                    <span>01</span>
+                </div>
+
+                <div class="progress-item">
+                    <span>Explore college courses</span>
+                    <span>02</span>
+                </div>
+
+                <div class="progress-item">
+                    <span>Prepare for your future</span>
+                    <span>03</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <span class="section-label">ABOUT THE PLATFORM</span>
+            <h2>Make your college decisions with confidence.</h2>
+            <p>
+                Strand2Future helps Grade 11 and Grade 12 students
+                understand their interests, discover suitable college
+                courses, and explore possible career opportunities.
+            </p>
+        </section>
+
+        <section class="features" id="features">
+            <span class="section-label">WHAT YOU CAN DO</span>
+            <h2>Explore your future possibilities.</h2>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Interest Assessment</h3>
+                    <p>Answer questions about your interests and skills to discover suitable courses.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Course Recommendations</h3>
+                    <p>Receive ranked college course suggestions based on your assessment results.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Advance Study Guide</h3>
+                    <p>Explore topics that can help you prepare before and during college.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="call-to-action">
+            <h2>Start planning your future today.</h2>
+            <p>Discover your interests and explore the courses that could shape your future.</p>
+            <a href="/accounts/register/" class="primary-button">Create Your Account</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Strand2Future. Choose Your Course. Plan Your Future.</p>
+    </footer>
+
+</body>
+</html>

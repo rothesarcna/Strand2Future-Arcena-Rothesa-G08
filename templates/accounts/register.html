@@ -1,0 +1,78 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Strand2Future</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="navbar">
+    <a href="/" class="logo">Strand<span>2Future</span></a>
+    <nav>
+        <a href="/">Home</a>
+        <a href="{% url 'login' %}">Log In</a>
+    </nav>
+</header>
+
+<main class="auth-container">
+    <div class="auth-card">
+        <h1>Create Your Account</h1>
+        <p class="auth-description">
+            Join Strand2Future and start exploring your college options.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="error-message">
+                    Please check the information you entered.
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <label>Username</label>
+            {{ form.username }}
+
+            <label>First Name</label>
+            {{ form.first_name }}
+
+            <label>Last Name</label>
+            {{ form.last_name }}
+
+            <label>Email Address</label>
+            {{ form.email }}
+
+            <label>School Name</label>
+            {{ form.school_name }}
+
+            <label>Grade Level</label>
+            {{ form.grade_level }}
+
+            <label>SHS Strand</label>
+            {{ form.strand }}
+
+            <label>Password</label>
+            {{ form.password1 }}
+
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+
+            <button type="submit" class="primary-button auth-submit">
+                Create Account
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a href="{% url 'login' %}">Log in here</a>
+        </p>
+    </div>
+</main>
+
+</body>
+</html>

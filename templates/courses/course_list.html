@@ -1,0 +1,91 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Catalog | Strand2Future</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="dashboard-navbar">
+    <a href="{% url 'dashboard' %}" class="logo">
+        Strand<span>2Future</span>
+    </a>
+    <a href="{% url 'dashboard' %}" class="secondary-button">
+        Back to Dashboard
+    </a>
+</header>
+
+<main class="catalog-container">
+
+    <section class="catalog-heading">
+        <span class="section-label">EXPLORE YOUR OPTIONS</span>
+        <h1>College Course Catalog</h1>
+        <p>
+            Discover college courses, their subjects, required skills,
+            and possible career opportunities.
+        </p>
+    </section>
+
+    <form method="GET" class="catalog-search">
+        <input
+            type="text"
+            name="q"
+            placeholder="Search courses..."
+            value="{{ search_query }}"
+        >
+        <button type="submit" class="primary-button">Search</button>
+    </form>
+
+    <section class="course-grid">
+
+        {% for course in courses %}
+            <article class="course-card">
+
+                <span class="course-abbreviation">
+                    {{ course.abbreviation|default:"COLLEGE COURSE" }}
+                </span>
+
+                <h2>{{ course.name }}</h2>
+
+                <p>{{ course.description|truncatewords:25 }}</p>
+
+                {% if course.duration_years %}
+                    <p class="course-duration">
+                        Duration: {{ course.duration_years }} years
+                    </p>
+                {% endif %}
+
+                <a href="{% url 'course_detail' course.id %}"
+                   class="card-link">
+                    View Course Details →
+                </a>
+
+            </article>
+
+        {% empty %}
+            <div class="empty-catalog">
+                <h3>No courses found.</h3>
+                <p>
+                    {% if search_query %}
+                        Try another search term.
+                    {% else %}
+                        Course information has not been added yet.
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 Strand2Future. Choose Your Course. Plan Your Future.</p>
+</footer>
+
+</body>
+</html>

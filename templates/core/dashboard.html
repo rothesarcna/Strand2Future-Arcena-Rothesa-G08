@@ -1,0 +1,120 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Strand2Future</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="dashboard-navbar">
+    <a href="{% url 'dashboard' %}" class="logo">
+        Strand<span>2Future</span>
+    </a>
+
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">Log Out</button>
+    </form>
+</header>
+
+<main class="dashboard-container">
+
+    <section class="welcome-section">
+        <span class="section-label">STUDENT DASHBOARD</span>
+
+        <h1>
+            Welcome,
+            {% if user.first_name %}
+                {{ user.first_name }}
+            {% else %}
+                {{ user.username }}
+            {% endif %}!
+        </h1>
+
+        <p>
+            Your college journey starts here.
+            Explore your interests and discover your future possibilities.
+        </p>
+
+        {% if profile %}
+            <div class="student-information">
+                <span>{{ profile.school_name }}</span>
+                <span>{{ profile.grade_level }}</span>
+                <span>{{ profile.strand }}</span>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="dashboard-section">
+        <h2>Start Exploring</h2>
+        <p class="dashboard-subtitle">
+            Discover your interests and explore possible college courses.
+        </p>
+
+        <div class="dashboard-grid">
+
+            <a href="#" class="dashboard-card">
+                <div class="dashboard-icon">📝</div>
+                <h3>Interest Assessment</h3>
+                <p>Answer questions about your interests and skills.</p>
+                <span class="card-link">Start Assessment →</span>
+            </a>
+
+            <a href="#" class="dashboard-card">
+                <div class="dashboard-icon">🎯</div>
+                <h3>Course Recommendations</h3>
+                <p>Discover courses that match your assessment results.</p>
+                <span class="card-link">View Recommendations →</span>
+            </a>
+
+            <a href="{% url 'course_list' %}" class="dashboard-card">
+                <div class="dashboard-icon">🎓</div>
+                <h3>Course Catalog</h3>
+                <p>Explore college courses, curricula, and career opportunities.</p>
+                <span class="card-link">Explore Courses →</span>
+            </a>
+
+            <a href="#" class="dashboard-card">
+                <div class="dashboard-icon">❤️</div>
+                <h3>Saved Courses</h3>
+                <p>Keep track of the courses you are interested in.</p>
+                <span class="card-link">View Saved Courses →</span>
+            </a>
+
+            <a href="#" class="dashboard-card">
+                <div class="dashboard-icon">📊</div>
+                <h3>Assessment History</h3>
+                <p>Review your previous assessment results.</p>
+                <span class="card-link">View History →</span>
+            </a>
+
+            <a href="#" class="dashboard-card">
+                <div class="dashboard-icon">📚</div>
+                <h3>Advance Study Guide</h3>
+                <p>Discover topics to study before and during college.</p>
+                <span class="card-link">Explore Study Guide →</span>
+            </a>
+
+        </div>
+    </section>
+
+    <section class="dashboard-note">
+        <h2>Plan your future one step at a time.</h2>
+        <p>
+            Explore your options, understand your interests,
+            and make informed decisions about your college journey.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 Strand2Future. Choose Your Course. Plan Your Future.</p>
+</footer>
+
+</body>
+</html>
