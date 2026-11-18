@@ -1,43 +1,54 @@
 
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Catalog | Strand2Future</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% extends "base.html" %}
 
-<header class="dashboard-navbar">
-    <a href="{% url 'dashboard' %}" class="logo">
-        Strand<span>2Future</span>
-    </a>
-    <a href="{% url 'dashboard' %}" class="secondary-button">
-        Back to Dashboard
-    </a>
-</header>
+{% block title %}Course Catalog | Strand2Future{% endblock %}
 
-<main class="catalog-container">
+{% block content %}
+<div class="catalog-page">
 
     <section class="catalog-heading">
-        <span class="section-label">EXPLORE YOUR OPTIONS</span>
-        <h1>College Course Catalog</h1>
-        <p>
-            Discover college courses, their subjects, required skills,
-            and possible career opportunities.
-        </p>
+        <div>
+            <span class="hero-tag">EXPLORE YOUR OPTIONS</span>
+            <h1>College Course Catalog</h1>
+            <p>
+                Discover college courses, their subjects, required skills,
+                and possible career opportunities.
+            </p>
+        </div>
+        <div class="catalog-heading-icon">🎓</div>
+    </section>
+
+    <section class="catalog-toolbar">
+        <div>
+            <h2>Explore Courses</h2>
+            <p>Find a course that matches your interests and future goals.</p>
+        </div>
+
+        <span class="course-total">
+            {{ courses.count }} Courses
+        </span>
     </section>
 
     <form method="GET" class="catalog-search">
-        <input
-            type="text"
-            name="q"
-            placeholder="Search courses..."
-            value="{{ search_query }}"
-        >
-        <button type="submit" class="primary-button">Search</button>
+        <div class="catalog-search-input">
+            <span>⌕</span>
+            <input
+                type="text"
+                name="q"
+                placeholder="Search by course name, abbreviation, or description..."
+                value="{{ search_query }}"
+            >
+        </div>
+
+        <button type="submit" class="catalog-search-button">
+            Search
+        </button>
+
+        {% if search_query %}
+            <a href="{% url 'course_list' %}" class="catalog-clear-button">
+                Clear
+            </a>
+        {% endif %}
     </form>
 
     <section class="course-grid">
@@ -45,47 +56,67 @@
         {% for course in courses %}
             <article class="course-card">
 
-                <span class="course-abbreviation">
-                    {{ course.abbreviation|default:"COLLEGE COURSE" }}
-                </span>
+                <div class="course-card-top">
+                    <span class="course-card-icon">📘</span>
+                    <span class="course-abbreviation">
+                        {{ course.abbreviation|default:"COLLEGE COURSE" }}
+                    </span>
+                </div>
 
-                <h2>{{ course.name }}</h2>
+                <h3>{{ course.name }}</h3>
 
-                <p>{{ course.description|truncatewords:25 }}</p>
+                <p class="course-description">
+                    {{ course.description|default:"Course description will be available soon."|truncatewords:25 }}
+                </p>
 
-                {% if course.duration_years %}
-                    <p class="course-duration">
-                        Duration: {{ course.duration_years }} years
-                    </p>
-                {% endif %}
+                <div class="course-card-footer">
+                    {% if course.duration_years %}
+                        <span class="course-duration">
+                            ◷ {{ course.duration_years }} Years
+                        </span>
+                    {% else %}
+                        <span class="course-duration">
+                            Course Information
+                        </span>
+                    {% endif %}
 
-                <a href="{% url 'course_detail' course.id %}"
-                   class="card-link">
-                    View Course Details →
-                </a>
+                    <a href="{% url 'course_detail' course.id %}"
+                       class="card-link">
+                        View Details →
+                    </a>
+                </div>
 
             </article>
 
         {% empty %}
             <div class="empty-catalog">
-                <h3>No courses found.</h3>
+                <div class="empty-catalog-icon">📚</div>
+                <h3>
+                    {% if search_query %}
+                        No matching courses found
+                    {% else %}
+                        No courses available yet
+                    {% endif %}
+                </h3>
                 <p>
                     {% if search_query %}
-                        Try another search term.
+                        We couldn't find a course matching "{{ search_query }}".
+                        Try using another keyword.
                     {% else %}
                         Course information has not been added yet.
+                        Please check again later.
                     {% endif %}
                 </p>
+
+                {% if search_query %}
+                    <a href="{% url 'course_list' %}" class="catalog-reset">
+                        View All Courses
+                    </a>
+                {% endif %}
             </div>
         {% endfor %}
 
     </section>
 
-</main>
-
-<footer>
-    <p>© 2026 Strand2Future. Choose Your Course. Plan Your Future.</p>
-</footer>
-
-</body>
-</html>
+</div>
+{% endblock %}

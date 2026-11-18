@@ -1,114 +1,142 @@
 
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ course.name }} | Strand2Future</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% extends "base.html" %}
 
-<header class="dashboard-navbar">
-    <a href="{% url 'dashboard' %}" class="logo">
-        Strand<span>2Future</span>
-    </a>
-    <a href="{% url 'course_list' %}" class="secondary-button">
-        Back to Courses
-    </a>
-</header>
+{% block title %}{{ course.name }} | Strand2Future{% endblock %}
 
-<main class="catalog-container">
+{% block content %}
+<div class="course-detail-page">
 
-    <section class="course-detail-header">
-        <span class="section-label">COURSE INFORMATION</span>
-        <h1>{{ course.name }}</h1>
+    <div class="course-detail-top">
+        <a href="{% url 'course_list' %}" class="back-link">
+            ← Back to Course Catalog
+        </a>
+        <span class="hero-tag">COURSE INFORMATION</span>
+    </div>
 
-        {% if course.abbreviation %}
-            <p class="course-abbreviation">{{ course.abbreviation }}</p>
-        {% endif %}
+    <section class="course-hero-card">
+        <div class="course-hero-content">
+            <span class="course-hero-label">EXPLORE YOUR FUTURE</span>
+            <h1>{{ course.name }}</h1>
 
-        <p>{{ course.description }}</p>
+            {% if course.abbreviation %}
+                <span class="course-abbreviation">
+                    {{ course.abbreviation }}
+                </span>
+            {% endif %}
 
-        {% if course.duration_years %}
-            <p class="course-duration">
-                Duration: {{ course.duration_years }} years
-            </p>
-        {% endif %}
+            <p>{{ course.description|default:"No course description available yet." }}</p>
+
+            {% if course.duration_years %}
+                <div class="course-duration">
+                    <span>◷</span>
+                    {{ course.duration_years }} Years
+                </div>
+            {% endif %}
+        </div>
+        <div class="course-hero-icon">🎓</div>
     </section>
 
     <section class="detail-section">
-        <h2>Curriculum and Subjects</h2>
+        <div class="detail-section-heading">
+            <div>
+                <span class="section-label">WHAT YOU WILL LEARN</span>
+                <h2>Curriculum and Subjects</h2>
+                <p>Explore the subjects included in this course.</p>
+            </div>
+            <span class="detail-count">{{ course.subjects.count }} Subjects</span>
+        </div>
 
         {% regroup course.subjects.all by year_level as subject_years %}
 
-        {% for year in subject_years %}
-            <div class="curriculum-group">
-                <h3>Year {{ year.grouper }}</h3>
+        <div class="curriculum-list">
+            {% for year in subject_years %}
+                <div class="curriculum-group">
+                    <h3>Year {{ year.grouper }}</h3>
 
-                {% for subject in year.list %}
-                    <div class="subject-item">
-                        <div>
-                            <strong>{{ subject.subject_name }}</strong>
+                    {% for subject in year.list %}
+                        <div class="subject-item">
+                            <div class="subject-main">
+                                <div class="subject-icon">📘</div>
+                                <div>
+                                    <strong>{{ subject.subject_name }}</strong>
 
-                            {% if subject.subject_code %}
-                                <span class="subject-code">
-                                    {{ subject.subject_code }}
-                                </span>
-                            {% endif %}
+                                    {% if subject.subject_code %}
+                                        <span class="subject-code">
+                                            {{ subject.subject_code }}
+                                        </span>
+                                    {% endif %}
 
-                            {% if subject.description %}
-                                <p>{{ subject.description }}</p>
-                            {% endif %}
+                                    {% if subject.description %}
+                                        <p>{{ subject.description }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <span class="semester-label">
+                                {{ subject.semester }}
+                            </span>
                         </div>
+                    {% endfor %}
+                </div>
+            {% empty %}
+                <div class="detail-empty-state">
+                    <span>📚</span>
+                    <strong>No curriculum available yet</strong>
+                    <p>Subject information will appear here once added.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 
-                        <span class="semester-label">
-                            {{ subject.semester }}
-                        </span>
-                    </div>
+    <div class="detail-info-grid">
+        <section class="detail-section">
+            <div class="detail-section-heading">
+                <div>
+                    <span class="section-label">CAREER PATH</span>
+                    <h2>Career Opportunities</h2>
+                </div>
+            </div>
+
+            <div class="detail-tags">
+                {% for career in course.careers.all %}
+                    <span class="detail-tag">
+                        <span>↗</span> {{ career.title }}
+                    </span>
+                {% empty %}
+                    <p class="empty-message">
+                        Career information is not available yet.
+                    </p>
                 {% endfor %}
             </div>
-        {% empty %}
-            <p class="empty-message">
-                Curriculum information is not available yet.
-            </p>
-        {% endfor %}
-    </section>
+        </section>
 
-    <section class="detail-section">
-        <h2>Possible Career Opportunities</h2>
+        <section class="detail-section">
+            <div class="detail-section-heading">
+                <div>
+                    <span class="section-label">SKILLS DEVELOPMENT</span>
+                    <h2>Related Skills</h2>
+                </div>
+            </div>
 
-        <div class="detail-tags">
-            {% for career in course.careers.all %}
-                <span>{{ career.title }}</span>
-            {% empty %}
-                <p class="empty-message">
-                    Career information is not available yet.
-                </p>
-            {% endfor %}
-        </div>
-    </section>
+            <div class="detail-tags">
+                {% for skill in course.skills.all %}
+                    <span class="detail-tag">
+                        <span>✓</span> {{ skill.name }}
+                    </span>
+                {% empty %}
+                    <p class="empty-message">
+                        Skill information is not available yet.
+                    </p>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
 
-    <section class="detail-section">
-        <h2>Related Skills</h2>
+    <div class="course-detail-bottom">
+        <a href="{% url 'course_list' %}" class="course-back-button">
+            ← Back to Course Catalog
+        </a>
+    </div>
 
-        <div class="detail-tags">
-            {% for skill in course.skills.all %}
-                <span>{{ skill.name }}</span>
-            {% empty %}
-                <p class="empty-message">
-                    Skill information is not available yet.
-                </p>
-            {% endfor %}
-        </div>
-    </section>
-
-</main>
-
-<footer>
-    <p>© 2026 Strand2Future. Choose Your Course. Plan Your Future.</p>
-</footer>
-
-</body>
-</html>
+</div>
+{% endblock %}
