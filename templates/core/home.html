@@ -1,120 +1,148 @@
 
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strand2Future | Choose Your Course</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% extends "base.html" %}
 
-    <header class="navbar">
-        <a href="/" class="logo">Strand<span>2Future</span></a>
+{% block title %}Strand2Future | Choose Your Course{% endblock %}
 
-        <nav>
-            <a href="#about">About</a>
-            <a href="#features">Features</a>
-            <a href="/accounts/login/">Log In</a>
-            <a href="/accounts/register/" class="nav-button">Get Started</a>
-        </nav>
-    </header>
+{% block public_content %}
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <span class="tagline">YOUR FUTURE STARTS HERE</span>
+<section class="hero-section">
 
-                <h1>Choose Your Course.<br>
-                    <span>Plan Your Future.</span>
-                </h1>
+    <div>
+        <span class="hero-tag">YOUR FUTURE STARTS HERE</span>
 
-                <p>
-                    Not sure what college course to take?
-                    Discover courses that match your interests,
-                    explore possible careers, and prepare for
-                    your college journey with Strand2Future.
-                </p>
+        <h1>
+            Choose Your Course.
+            <span>Plan Your Future.</span>
+        </h1>
 
-                <div class="hero-buttons">
-                    <a href="/accounts/register/" class="primary-button">
-                        Get Started
-                    </a>
+        <p>
+            Not sure what college course to take?
+            Strand2Future helps you explore your interests,
+            discover suitable courses, and prepare for your college journey.
+        </p>
 
-                    <a href="#features" class="secondary-button">
-                        Explore Features
-                    </a>
-                </div>
-            </div>
+        <div class="hero-actions">
+            <a href="{% url 'register' %}" class="primary-button">
+                Get Started →
+            </a>
 
-            <div class="hero-card">
-                <div class="card-icon">🎓</div>
-                <h3>Your Future, Your Choice</h3>
-                <p>Discover possibilities and make informed decisions about your college journey.</p>
+            <a href="#features" class="secondary-button">
+                Explore Features
+            </a>
+        </div>
+    </div>
 
-                <div class="progress-item">
-                    <span>Discover your interests</span>
-                    <span>01</span>
-                </div>
+    <div class="hero-visual">
 
-                <div class="progress-item">
-                    <span>Explore college courses</span>
-                    <span>02</span>
-                </div>
+        <div class="hero-visual-card">
 
-                <div class="progress-item">
-                    <span>Prepare for your future</span>
-                    <span>03</span>
-                </div>
-            </div>
-        </section>
+            <span class="hero-tag">COURSE DISCOVERY</span>
 
-        <section class="about" id="about">
-            <span class="section-label">ABOUT THE PLATFORM</span>
-            <h2>Make your college decisions with confidence.</h2>
+            <h3>Find a course that fits you.</h3>
+
             <p>
-                Strand2Future helps Grade 11 and Grade 12 students
-                understand their interests, discover suitable college
-                courses, and explore possible career opportunities.
+                Discover college paths based on your interests and skills.
             </p>
-        </section>
 
-        <section class="features" id="features">
-            <span class="section-label">WHAT YOU CAN DO</span>
-            <h2>Explore your future possibilities.</h2>
-
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📝</div>
-                    <h3>Interest Assessment</h3>
-                    <p>Answer questions about your interests and skills to discover suitable courses.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Course Recommendations</h3>
-                    <p>Receive ranked college course suggestions based on your assessment results.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
-                    <h3>Advance Study Guide</h3>
-                    <p>Explore topics that can help you prepare before and during college.</p>
+            <div class="hero-course">
+                <div class="hero-course-icon">💻</div>
+                <div>
+                    <strong>Information Technology</strong>
+                    <span>Technology and computing</span>
                 </div>
             </div>
-        </section>
 
-        <section class="call-to-action">
-            <h2>Start planning your future today.</h2>
-            <p>Discover your interests and explore the courses that could shape your future.</p>
-            <a href="/accounts/register/" class="primary-button">Create Your Account</a>
-        </section>
-    </main>
+            <div class="hero-course">
+                <div class="hero-course-icon">📊</div>
+                <div>
+                    <strong>Business Administration</strong>
+                    <span>Business and management</span>
+                </div>
+            </div>
 
-    <footer>
-        <p>© 2026 Strand2Future. Choose Your Course. Plan Your Future.</p>
-    </footer>
+            <div class="hero-course">
+                <div class="hero-course-icon">🎨</div>
+                <div>
+                    <strong>Multimedia Arts</strong>
+                    <span>Creativity and design</span>
+                </div>
+            </div>
 
-</body>
-</html>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="features-section" id="features">
+
+    <div class="features-heading">
+        <h2>Explore Your College Journey</h2>
+
+        <p>
+            Get helpful tools to understand your interests,
+            discover possible courses, and prepare for college.
+        </p>
+    </div>
+
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <div class="stat-icon">✓</div>
+            <h3>Interest and Skills Assessment</h3>
+            <p>
+                Answer questions about your interests and abilities
+                to help identify suitable college courses.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="stat-icon">✦</div>
+            <h3>Course Recommendations</h3>
+            <p>
+                Receive ranked course suggestions based on
+                your assessment answers.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="stat-icon">▤</div>
+            <h3>Course Exploration</h3>
+            <p>
+                Explore course descriptions, curricula,
+                possible careers, and related skills.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="stat-icon">⌕</div>
+            <h3>Advance Study Guide</h3>
+            <p>
+                Discover topics you can study before and
+                during your college journey.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="stat-icon">☆</div>
+            <h3>Saved Courses</h3>
+            <p>
+                Keep track of courses you are interested
+                in exploring.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="stat-icon">◷</div>
+            <h3>Assessment History</h3>
+            <p>
+                Review your previous assessment results
+                and compare your recommendations.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

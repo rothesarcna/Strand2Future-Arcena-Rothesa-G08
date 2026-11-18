@@ -1,120 +1,189 @@
 
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Strand2Future</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% extends "base.html" %}
 
-<header class="dashboard-navbar">
-    <a href="{% url 'dashboard' %}" class="logo">
-        Strand<span>2Future</span>
-    </a>
+{% block title %}Dashboard | Strand2Future{% endblock %}
 
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="logout-button">Log Out</button>
-    </form>
-</header>
+{% block content %}
 
-<main class="dashboard-container">
+<!-- Welcome Banner -->
+<section class="welcome-banner">
 
-    <section class="welcome-section">
-        <span class="section-label">STUDENT DASHBOARD</span>
-
+    <div>
         <h1>
-            Welcome,
-            {% if user.first_name %}
-                {{ user.first_name }}
-            {% else %}
-                {{ user.username }}
-            {% endif %}!
+            Welcome back,
+            {{ user.first_name|default:user.username }}!
         </h1>
 
         <p>
-            Your college journey starts here.
-            Explore your interests and discover your future possibilities.
+            Your college journey starts with understanding your interests.
+            Explore your options and plan your future.
+        </p>
+    </div>
+
+    <div class="welcome-decoration">✦</div>
+
+</section>
+
+
+<!-- Page Heading -->
+<div class="page-heading">
+
+    <div>
+        <h1>Student Dashboard</h1>
+        <p>Here's an overview of your Strand2Future account.</p>
+    </div>
+
+    <a href="{% url 'course_list' %}" class="primary-button">
+        Explore Courses →
+    </a>
+
+</div>
+
+
+<!-- Dashboard Statistics -->
+<section class="dashboard-grid">
+
+    <div class="dashboard-stat">
+
+        <div class="stat-icon">▤</div>
+
+        <h2>{{ course_count }}</h2>
+
+        <p>Available Courses</p>
+
+    </div>
+
+
+    <div class="dashboard-stat">
+
+        <div class="stat-icon">☆</div>
+
+        <h2>{{ saved_count }}</h2>
+
+        <p>Saved Courses</p>
+
+    </div>
+
+
+    <div class="dashboard-stat">
+
+        <div class="stat-icon">✓</div>
+
+        <h2>{{ completed_assessments }}</h2>
+
+        <p>Completed Assessments</p>
+
+    </div>
+
+</section>
+
+
+<!-- Lower Dashboard Section -->
+<section class="dashboard-lower-grid">
+
+    <!-- Student Information -->
+    <div class="card">
+
+        <h2 class="section-title">Student Information</h2>
+
+        <p class="section-description">
+            Your registered student details.
         </p>
 
-        {% if profile %}
-            <div class="student-information">
-                <span>{{ profile.school_name }}</span>
-                <span>{{ profile.grade_level }}</span>
-                <span>{{ profile.strand }}</span>
+        <div class="profile-information">
+
+            <div class="profile-item">
+                <span>Full Name</span>
+                <strong>
+                    {{ user.get_full_name|default:user.username }}
+                </strong>
             </div>
-        {% endif %}
-    </section>
 
-    <section class="dashboard-section">
-        <h2>Start Exploring</h2>
-        <p class="dashboard-subtitle">
-            Discover your interests and explore possible college courses.
+            <div class="profile-item">
+                <span>Username</span>
+                <strong>{{ user.username }}</strong>
+            </div>
+
+            <div class="profile-item">
+                <span>Email Address</span>
+                <strong>{{ user.email|default:"Not provided" }}</strong>
+            </div>
+
+            <div class="profile-item">
+                <span>School</span>
+                <strong>
+                    {{ profile.school_name|default:"Not provided" }}
+                </strong>
+            </div>
+
+            <div class="profile-item">
+                <span>Grade Level</span>
+                <strong>
+                    {{ profile.grade_level|default:"Not provided" }}
+                </strong>
+            </div>
+
+            <div class="profile-item">
+                <span>SHS Strand</span>
+                <strong>
+                    {{ profile.strand|default:"Not provided" }}
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Access -->
+    <div class="card">
+
+        <h2 class="section-title">Quick Access</h2>
+
+        <p class="section-description">
+            Continue exploring your college options.
         </p>
 
-        <div class="dashboard-grid">
+        <div class="quick-links">
 
-            <a href="#" class="dashboard-card">
-                <div class="dashboard-icon">📝</div>
-                <h3>Interest Assessment</h3>
-                <p>Answer questions about your interests and skills.</p>
-                <span class="card-link">Start Assessment →</span>
+            <a href="{% url 'course_list' %}" class="quick-link">
+                <span>Explore Course Catalog</span>
+                <span>→</span>
             </a>
 
-            <a href="#" class="dashboard-card">
-                <div class="dashboard-icon">🎯</div>
-                <h3>Course Recommendations</h3>
-                <p>Discover courses that match your assessment results.</p>
-                <span class="card-link">View Recommendations →</span>
+            <a href="{% url 'course_list' %}" class="quick-link">
+                <span>View Course Details</span>
+                <span>→</span>
             </a>
 
-            <a href="{% url 'course_list' %}" class="dashboard-card">
-                <div class="dashboard-icon">🎓</div>
-                <h3>Course Catalog</h3>
-                <p>Explore college courses, curricula, and career opportunities.</p>
-                <span class="card-link">Explore Courses →</span>
-            </a>
-
-            <a href="#" class="dashboard-card">
-                <div class="dashboard-icon">❤️</div>
-                <h3>Saved Courses</h3>
-                <p>Keep track of the courses you are interested in.</p>
-                <span class="card-link">View Saved Courses →</span>
-            </a>
-
-            <a href="#" class="dashboard-card">
-                <div class="dashboard-icon">📊</div>
-                <h3>Assessment History</h3>
-                <p>Review your previous assessment results.</p>
-                <span class="card-link">View History →</span>
-            </a>
-
-            <a href="#" class="dashboard-card">
-                <div class="dashboard-icon">📚</div>
-                <h3>Advance Study Guide</h3>
-                <p>Discover topics to study before and during college.</p>
-                <span class="card-link">Explore Study Guide →</span>
+            <a href="{% url 'course_list' %}" class="quick-link">
+                <span>Discover Career Opportunities</span>
+                <span>→</span>
             </a>
 
         </div>
-    </section>
 
-    <section class="dashboard-note">
-        <h2>Plan your future one step at a time.</h2>
-        <p>
-            Explore your options, understand your interests,
-            and make informed decisions about your college journey.
-        </p>
-    </section>
+    </div>
 
-</main>
+</section>
 
-<footer>
-    <p>© 2026 Strand2Future. Choose Your Course. Plan Your Future.</p>
-</footer>
 
-</body>
-</html>
+<!-- Getting Started -->
+<section class="card" style="margin-top: 22px;">
+
+    <h2 class="section-title">Start Planning Your Future</h2>
+
+    <p class="section-description">
+        Take time to explore different college courses and learn
+        about the opportunities available to you.
+    </p>
+
+    <div style="margin-top: 18px;">
+        <a href="{% url 'course_list' %}" class="primary-button">
+            Browse Courses →
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}

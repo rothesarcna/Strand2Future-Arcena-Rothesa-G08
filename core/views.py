@@ -1,7 +1,11 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+
 from accounts.models import StudentProfile
+from courses.models import Course
+from recommendations.models import SavedCourse
+from assessments.models import AssessmentAttempt
 
 
 def home(request):
@@ -13,8 +17,31 @@ def home(request):
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
-    profile = StudentProfile.objects.filter(user=request.user).first()
 
-    return render(request, 'core/dashboard.html', {
-        'profile': profile
-    })
+    profile = StudentProfile.objects.filter(
+        user=request.user
+    ).first()
+
+    course_count = Course.objects.count()
+
+    saved_count = SavedCourse.objects.filter(
+        student=request.user
+    ).count()
+
+    completed_assessments = AssessmentAttempt.objects.filter(
+        student=request.user,
+        is_completed=True
+    ).count()
+
+    context = {
+        'profile': profile,
+        'course_count': course_count,
+        'saved_count': saved_count,
+        'completed_assessments': completed_assessments,
+    }
+
+    return render(
+        request,
+        'core/dashboard.html',
+        context
+    )
