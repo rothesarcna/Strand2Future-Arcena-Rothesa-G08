@@ -18,6 +18,9 @@ def home(request):
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
 
+    if request.user.is_staff:
+        return redirect('admin_dashboard')
+
     profile = StudentProfile.objects.filter(
         user=request.user
     ).first()
@@ -45,3 +48,12 @@ def dashboard(request):
         'core/dashboard.html',
         context
     )
+
+
+@login_required(login_url='/accounts/login/')
+def admin_dashboard(request):
+
+    if not request.user.is_staff:
+        return redirect('dashboard')
+
+    return render(request, 'core/admin_dashboard.html')
