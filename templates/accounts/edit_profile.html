@@ -1,0 +1,58 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Profile | Strand2Future{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="auth-heading">
+            <span class="hero-tag">ACCOUNT SETTINGS</span>
+            <h1>Edit Profile</h1>
+            <p>Update your personal and school information.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <h3>Personal Information</h3>
+
+            {% for field in user_form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <small class="error-message">{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <h3>School Information</h3>
+
+            {% for field in student_form %}
+                <div class="form-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <small class="error-message">{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="auth-submit">
+                Save Changes
+            </button>
+
+            <a href="{% url 'profile' %}" class="auth-switch">
+                Cancel
+            </a>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

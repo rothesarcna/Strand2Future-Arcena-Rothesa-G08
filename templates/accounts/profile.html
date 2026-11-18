@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Profile | Strand2Future{% endblock %}
+
+{% block content %}
+
+<section class="profile-page">
+
+    <div class="profile-header">
+        <span class="hero-tag">MY ACCOUNT</span>
+        <h1>My Profile</h1>
+        <p>View your personal and school information.</p>
+    </div>
+
+    <div class="profile-card">
+
+        <div class="profile-section">
+            <div class="profile-section-heading">
+                <div class="profile-icon">01</div>
+                <div>
+                    <h3>Personal Information</h3>
+                    <p>Your account details</p>
+                </div>
+            </div>
+
+            <div class="profile-info-grid">
+                <div class="profile-info">
+                    <span>Username</span>
+                    <strong>{{ user.username }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>First Name</span>
+                    <strong>{{ user.first_name }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>Last Name</span>
+                    <strong>{{ user.last_name }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>Email</span>
+                    <strong>{{ user.email }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-divider"></div>
+
+        <div class="profile-section">
+            <div class="profile-section-heading">
+                <div class="profile-icon">02</div>
+                <div>
+                    <h3>School Information</h3>
+                    <p>Your academic background</p>
+                </div>
+            </div>
+
+            <div class="profile-info-grid">
+                <div class="profile-info">
+                    <span>School</span>
+                    <strong>{{ student_profile.school_name }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>Grade Level</span>
+                    <strong>{{ student_profile.grade_level }}</strong>
+                </div>
+
+                <div class="profile-info">
+                    <span>Strand</span>
+                    <strong>{{ student_profile.strand }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a href="{% url 'edit_profile' %}" class="profile-edit-btn">
+                Edit Profile
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

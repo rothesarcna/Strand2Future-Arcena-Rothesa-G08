@@ -34,17 +34,34 @@
 
         <nav class="sidebar-nav">
 
-            <a href="{% url 'dashboard' %}"
-               class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                <span class="nav-icon">⌂</span>
-                <span>Dashboard</span>
-            </a>
+            {% if user.is_staff %}
 
-            <a href="{% url 'course_list' %}"
-               class="nav-link {% if request.resolver_match.url_name == 'course_list' or request.resolver_match.url_name == 'course_detail' %}active{% endif %}">
-                <span class="nav-icon">▤</span>
-                <span>Course Catalog</span>
-            </a>
+                <a href="{% url 'admin_dashboard' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+                    <span class="nav-icon">⌂</span>
+                    <span>Admin Dashboard</span>
+                </a>
+
+                <a href="/admin/" class="nav-link">
+                    <span class="nav-icon">⚙</span>
+                    <span>Django Administration</span>
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'dashboard' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    <span class="nav-icon">⌂</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="{% url 'course_list' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'course_list' or request.resolver_match.url_name == 'course_detail' %}active{% endif %}">
+                    <span class="nav-icon">▤</span>
+                    <span>Course Catalog</span>
+                </a>
+
+            {% endif %}
 
         </nav>
 
@@ -52,13 +69,19 @@
 
         <nav class="sidebar-nav">
 
-            <a href="{% url 'dashboard' %}" class="nav-link">
-                <span class="nav-icon">⚙</span>
-                <span>My Profile</span>
-            </a>
+            {% if not user.is_staff %}
+
+                <a href="{% url 'profile' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'profile' or request.resolver_match.url_name == 'edit_profile' %}active{% endif %}">
+                    <span class="nav-icon">⚙</span>
+                    <span>My Profile</span>
+                </a>
+
+            {% endif %}
 
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
+
                 <button type="submit" class="nav-link logout-link">
                     <span class="nav-icon">⇥</span>
                     <span>Log Out</span>
@@ -85,14 +108,23 @@
             </div>
 
             <div class="topbar-user">
+
                 <div class="user-avatar">
                     {{ user.first_name|default:user.username|first|upper }}
                 </div>
 
                 <div class="user-details">
                     <strong>{{ user.first_name|default:user.username }}</strong>
-                    <span>Student</span>
+
+                    <span>
+                        {% if user.is_staff %}
+                            Administrator
+                        {% else %}
+                            Student
+                        {% endif %}
+                    </span>
                 </div>
+
             </div>
 
         </header>
@@ -112,6 +144,7 @@
             <a href="{% url 'home' %}#about">About</a>
             <a href="{% url 'home' %}#features">Features</a>
             <a href="{% url 'login' %}">Log In</a>
+
             <a href="{% url 'register' %}" class="public-nav-button">
                 Get Started
             </a>

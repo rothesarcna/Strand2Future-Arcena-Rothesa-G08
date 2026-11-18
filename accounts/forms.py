@@ -10,7 +10,6 @@ class StudentRegistrationForm(UserCreationForm):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=150)
     last_name = forms.CharField(max_length=150)
-
     school_name = forms.CharField(max_length=150)
 
     grade_level = forms.ChoiceField(
@@ -33,6 +32,16 @@ class StudentRegistrationForm(UserCreationForm):
             'password2',
         ]
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError(
+                'This email address is already registered.'
+            )
+
+        return email
+
     def save(self, commit=True):
         user = super().save(commit=False)
 
@@ -51,3 +60,37 @@ class StudentRegistrationForm(UserCreationForm):
             )
 
         return user
+
+
+class UserProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+        ]
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        if User.objects.filter(
+            email__iexact=email
+        ).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError(
+                'This email address is already in use.'
+            )
+
+        return email
+
+
+class StudentProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = StudentProfile
+        fields = [
+            'school_name',
+            'grade_level',
+            'strand',
+        ]

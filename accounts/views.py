@@ -3,7 +3,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import StudentRegistrationForm
+from django.db import transaction
+
+from .forms import (
+    StudentRegistrationForm,
+    UserProfileForm,
+    StudentProfileForm
+)
+from .models import StudentProfile
 
 
 def register(request):
@@ -54,3 +61,67 @@ def student_logout(request):
         return redirect('home')
 
     return redirect('home')
+
+
+@login_required
+def profile(request):
+
+    student_profile = StudentProfile.objects.get(
+        user=request.user
+    )
+
+    context = {
+        'student_profile': student_profile,
+    }
+
+    return render(
+        request,
+        'accounts/profile.html',
+        context
+    )
+
+
+@login_required
+@transaction.atomic
+def edit_profile(request):
+
+    student_profile = StudentProfile.objects.get(
+        user=request.user
+    )
+
+    if request.method == 'POST':
+        user_form = UserProfileForm(
+            request.POST,
+            instance=request.user
+        )
+
+        student_form = StudentProfileForm(
+            request.POST,
+            instance=student_profile
+        )
+
+        if user_form.is_valid() and student_form.is_valid():
+            user_form.save()
+            student_form.save()
+
+            messages.success(
+                request,
+                'Your profile was updated successfully!'
+            )
+
+            return redirect('profile')
+
+    else:
+        user_form = UserProfileForm(instance=request.user)
+        student_form = StudentProfileForm(instance=student_profile)
+
+    context = {
+        'user_form': user_form,
+        'student_form': student_form,
+    }
+
+    return render(
+        request,
+        'accounts/edit_profile.html',
+        context
+    )
